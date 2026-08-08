@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<title>Nativity Catholic School Volunteer Program</title>
+<style>
+  :root{
+    --navy:#1c2e4a;
+    --navy-dark:#101c30;
+    --gold:#b98a2e;
+    --gold-light:#f4ead4;
+    --cream:#faf7f0;
+    --line:#dcd5c4;
+    --text:#26241c;
+    --muted:#6b6656;
+    --danger:#a13a3a;
+    --success:#2f6b4f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:var(--cream);
+    color:var(--text);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 0 80px;}
+  header{
+    background:var(--navy);
+    color:#fff;
+    padding:calc(36px + env(safe-area-inset-top)) 24px 28px;
+    text-align:center;
+    border-bottom:4px solid var(--gold);
+  }
+  header .cross{font-size:22px;color:var(--gold);letter-spacing:6px;margin-bottom:6px;}
+  header h1{margin:0;font-size:23px;font-weight:600;letter-spacing:.2px;}
+  header p{margin:8px 0 0;font-size:14.5px;color:#cfd8e8;}
+  .badge{
+    display:inline-block;margin-top:14px;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.25);border-radius:20px;
+    padding:5px 14px;font-size:12.5px;color:#f4ead4;
+  }
+  main{padding:24px 20px 0;}
+  .notice{
+    background:var(--gold-light);
+    border-left:4px solid var(--gold);
+    padding:14px 16px;
+    font-size:14px;
+    line-height:1.5;
+    border-radius:0 8px 8px 0;
+    margin-bottom:28px;
+    color:#4a3c1a;
+  }
+  section.card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 20px;
+    margin-bottom:20px;
+  }
+  section.card h2{
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    color:var(--gold);
+    margin:0 0 4px;
+    font-weight:700;
+  }
+  section.card h3{
+    font-size:18px;
+    margin:0 0 16px;
+    color:var(--navy);
+    font-weight:600;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:14px 12px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:background .15s,border-color .15s;
+  }
+  .opt:last-child{margin-bottom:0;}
+  .opt:active{background:var(--gold-light);}
+  .opt.checked{background:var(--gold-light);border-color:var(--gold);}
+  .opt input[type=checkbox]{
+    width:26px;height:26px;flex-shrink:0;margin-top:1px;accent-color:var(--navy);
+  }
+  .opt .label{flex:1;}
+  .opt .title{font-size:16px;font-weight:600;color:var(--text);}
+  .opt .desc{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.45;}
+  .sub{
+    margin-top:12px;
+    padding-left:2px;
+    display:none;
+  }
+  .opt.checked + .sub{display:block;}
+  .sub label{
+    display:block;font-size:12.5px;color:var(--muted);margin:10px 0 5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.4px;
+  }
+  input[type=text],select{
+    width:100%;
+    font-size:16px;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:#fdfcfa;
+    font-family:inherit;
+    color:var(--text);
+  }
+  input[type=text]:focus,select:focus{outline:2px solid var(--gold);border-color:var(--gold);}
+  .radio-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .radio-row label{
+    display:flex;align-items:center;gap:8px;
+    border:1px solid var(--line);border-radius:8px;
+    padding:10px 14px;font-size:14.5px;font-weight:normal;
+    text-transform:none;letter-spacing:0;color:var(--text);
+    cursor:pointer;
+  }
+  .radio-row input{width:20px;height:20px;accent-color:var(--navy);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+  .required{color:var(--danger);}
+  footer.actions{
+    padding:6px 20px 0;
+    position:sticky;
+    bottom:0;
+  }
+  .submit-wrap{
+    background:var(--cream);
+    padding-top:14px;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  button#submitBtn{
+    width:100%;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:18px;
+    font-size:17px;
+    font-weight:600;
+    border-radius:12px;
+    cursor:pointer;
+  }
+  button#submitBtn:active{background:var(--navy-dark);}
+  .helper{text-align:center;font-size:12.5px;color:var(--muted);margin:10px 0 4px;}
+  .confirm{
+    display:none;
+    text-align:center;
+    padding:60px 24px;
+  }
+  .confirm.show{display:block;}
+  .confirm .check{
+    width:64px;height:64px;border-radius:50%;background:var(--success);
+    color:#fff;font-size:32px;display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+  }
+  .confirm h2{color:var(--navy);font-size:22px;margin-bottom:8px;}
+  .confirm p{color:var(--muted);font-size:15px;line-height:1.6;max-width:420px;margin:0 auto 26px;}
+  .confirm button{
+    background:transparent;border:1.5px solid var(--navy);color:var(--navy);
+    padding:12px 24px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;
+  }
+  .err{color:var(--danger);font-size:13px;margin-top:6px;display:none;}
+  .staff{
+    text-align:center;padding:18px 0 0;
+  }
+  .staff a{color:var(--muted);font-size:12px;text-decoration:underline;}
+
+</style>
+</head>
+<body>
+
+<div id="formView">
+<header>
+  <div class="cross">&#10014;</div>
+  <h1>Nativity Catholic School</h1>
+  <p>Volunteer Program &middot; 2026&ndash;27</p>
+  <div class="badge">Tap to fill out the volunteer form</div>
+</header>
+
+<div class="wrap">
+<main>
+  <div class="notice">
+    Nativity Catholic School relies on volunteers who generously give their time. Please check every category you'd like to support. <strong>All parents are required to work at least one time slot in the Jamboree booth</strong> for each of their children. Check the school website for full volunteer requirements.
+  </div>
+
+  <form id="volForm">
+
+    <section class="card">
+      <h2>Classroom &amp; school support</h2>
+      <h3>Where would you like to help?</h3>
+
+      <label class="opt" data-name="Volunteer Aide Program">
+        <input type="checkbox" name="opt_aide">
+        <div class="label">
+          <div class="title">Volunteer Aide Program</div>
+          <div class="desc">Enables teachers in grades 4&ndash;8 to have a parent volunteer aide throughout the year. Parents may not assist in their own child's grade level.</div>
+        </div>
+      </label>
+
+      <label class="opt" data-name="Homeroom Mother">
+        <input type="checkbox" name="opt_homeroom">
+        <div class="label">
+          <div class="title">Homeroom Mother</div>
+        </div>
+      </label>
+      <div class="sub">
+        <div class="field-row">
+          <div>
+            <label>Child's name</label>
+            <input type="text" name="homeroom_child" placeholder="Full name">
+          </div>
+          <div>
+            <label>Grade</label>
+            <input type="text" name="homeroom_grade" placeholder="e.g. 3rd">
+          </div>
+        </div>
+        <label>Room #</label>
+        <input type="text" name="homeroom_room" placeholder="Room number">
+      </div>
+
+      <label class="opt" data-name="Accelerated Reader Program">
+        <input type="checkbox" name="opt_ar">
+        <div class="label">
+          <div class="title">Accelerated Reader Program</div>
+          <div class="desc">Supports K&ndash;2 teachers with the daily AR program &mdash; helping students select books and facilitate quizzes.</div>
+        </div>
+      </label>
+      <div class="sub">
+        <label>Day preferred</label>
+        <input type="text" name="ar_day" placeholder="e.g. Tuesdays">
+      </div>
+
+      <label class="opt" data-name="Picture Day Helper">
+        <input type="checkbox" name="opt_picture">
+        <div class="label"><div class="title">Picture Day Helper</div></div>
+      </label>
+
+      <label class="opt" data-name="Health Screen Assistant">
+        <input type="checkbox" name="opt_health">
+        <div class="label">
+          <div class="title">Health Screen Assistant</div>
+          <div class="desc">Helps get students to the correct locations on health screening days.</div>
+        </div>
+      </label>
+
+      <label class="opt" data-name="Office Assistant">
+        <input type="checkbox" name="opt_office">
+        <div class="label"><div class="title">Office Assistant</div></div>
+      </label>
+      <div class="sub">
+        <label>Day preferred</label>
+        <input type="text" name="office_day" placeholder="e.g. Mondays">
+        <label>Preferred time</label>
+        <div class="radio-row">
+          <label><input type="radio" name="office_time" value="7:30am - 11:30am"> 7:30am&ndash;11:30am</label>
+          <label><input type="radio" name="office_time" value="11:30am - all call"> 11:30am&ndash;all call</label>
+        </div>
+      </div>
+
+      <label class="opt" data-name="Clinic Assistant">
+        <input type="checkbox" name="opt_clinic">
+        <div class="label">
+          <div class="title">Clinic Assistant</div>
+          <div class="desc">Helps clinic staff get students to and from their classrooms.</div>
+        </div>
+      </label>
+
+      <label class="opt" data-name="Junior High Elective Class">
+        <input type="checkbox" name="opt_elective">
+        <div class="label">
+          <div class="title">Junior High Elective Class</div>
+          <div class="desc">Have a special talent or skill to share with our JH students?</div>
+        </div>
+      </label>
+      <div class="sub">
+        <label>Proposed class topic</label>
+        <input type="text" name="elective_topic" placeholder="e.g. Beginner Photography">
+      </div>
+
+      <label class="opt" data-name="Sports Team Coach">
+        <input type="checkbox" name="opt_coach">
+        <div class="label">
+          <div class="title">Sports Team Coach</div>
+          <div class="desc">Work alongside our teacher coaches to provide more athletic opportunities.</div>
+        </div>
+      </label>
+      <div class="sub">
+        <label>Sport of interest</label>
+        <input type="text" name="coach_sport" placeholder="e.g. Soccer">
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Special events</h2>
+      <h3>Sign up for an event</h3>
+      <label class="opt" data-name="TapRoom Takeover (September)">
+        <input type="checkbox" name="ev_taproom">
+        <div class="label"><div class="title">TapRoom Takeover</div><div class="desc">September</div></div>
+      </label>
+      <label class="opt" data-name="Auction Dinner-Dance (October)">
+        <input type="checkbox" name="ev_auction">
+        <div class="label"><div class="title">Auction Dinner-Dance</div><div class="desc">October</div></div>
+      </label>
+      <label class="opt" data-name="Field Day (January)">
+        <input type="checkbox" name="ev_fieldday">
+        <div class="label"><div class="title">Field Day</div><div class="desc">January</div></div>
+      </label>
+      <label class="opt" data-name="Grandparents' Day (February)">
+        <input type="checkbox" name="ev_grandparents">
+        <div class="label"><div class="title">Grandparents' Day</div><div class="desc">February</div></div>
+      </label>
+      <label class="opt" data-name="Jamboree Volunteer (February)">
+        <input type="checkbox" name="ev_jamboree">
+        <div class="label"><div class="title">Jamboree Volunteer</div><div class="desc">February</div></div>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Home &amp; school events</h2>
+      <label class="opt" data-name="Walk-a-thon (September)">
+        <input type="checkbox" name="hs_walkathon">
+        <div class="label"><div class="title">Walk-a-thon</div><div class="desc">September</div></div>
+      </label>
+      <label class="opt" data-name="Teacher Appreciation Week (May)">
+        <input type="checkbox" name="hs_teacher">
+        <div class="label"><div class="title">Teacher Appreciation Week</div><div class="desc">May</div></div>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Other</h2>
+      <label class="opt" data-name="I have a talent I would like to share">
+        <input type="checkbox" name="opt_talent">
+        <div class="label"><div class="title">I have a talent I'd like to share with Nativity students</div></div>
+      </label>
+      <div class="sub">
+        <label>Tell us about it</label>
+        <input type="text" name="talent_desc" placeholder="Describe your talent">
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Contact information</h2>
+      <h3>Your details</h3>
+      <label>Parent name <span class="required">*</span></label>
+      <input type="text" name="parent_name" placeholder="Full name" required style="margin-bottom:14px;">
+
+      <label>Oldest child's name <span class="required">*</span></label>
+      <input type="text" name="oldest_child" placeholder="Full name" required style="margin-bottom:14px;">
+
+      <div class="field-row">
+        <div>
+          <label>Work phone</label>
+          <input type="text" name="work_phone" placeholder="(___) ___-____">
+        </div>
+        <div>
+          <label>Cell phone <span class="required">*</span></label>
+          <input type="text" name="cell_phone" placeholder="(___) ___-____" required>
+        </div>
+      </div>
+      <div class="err" id="formErr">Please fill in parent name, oldest child's name, and a cell phone number.</div>
+    </section>
+
+  </form>
+</main>
+</div>
+
+<div class="submit-wrap">
+  <footer class="actions">
+    <button id="submitBtn">Submit volunteer form</button>
+    <div class="helper">All volunteers must meet Archdiocese of Miami &amp; Nativity requirements.</div>
+  </footer>
+</div>
+</div>
+
+<div class="confirm" id="confirmView">
+  <div class="check">&#10003;</div>
+  <h2>Thank you!</h2>
+  <p>Your volunteer form has been submitted to Nativity Catholic School. The office will follow up with next steps.</p>
+  <button id="newFormBtn">Fill out another form</button>
+</div>
+
+<script>
+// PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW, between the quotes.
+// You get this URL after deploying the script from Extensions > Apps Script > Deploy > New deployment > Web app.
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynZ5RdT2THwLxhqEbUB7sD7gdeQczy7L4xsnlL_PIdg2DHavDLjws8w9tNliKeS4I0QQ/exec';
+
+document.querySelectorAll('.opt').forEach(opt=>{
+  const cb = opt.querySelector('input[type=checkbox]');
+  cb.addEventListener('change', ()=>{ opt.classList.toggle('checked', cb.checked); });
+});
+
+document.getElementById('submitBtn').addEventListener('click', async ()=>{
+  const form = document.getElementById('volForm');
+  const fd = new FormData(form);
+  const parentName = (fd.get('parent_name')||'').trim();
+  const oldestChild = (fd.get('oldest_child')||'').trim();
+  const cellPhone = (fd.get('cell_phone')||'').trim();
+  const errEl = document.getElementById('formErr');
+  if(!parentName || !oldestChild || !cellPhone){
+    errEl.style.display='block';
+    errEl.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  errEl.style.display='none';
+
+  if(APPS_SCRIPT_URL === 'PASTE_YOUR_WEB_APP_URL_HERE'){
+    alert('Form setup is not finished yet: paste your Apps Script web app URL into the APPS_SCRIPT_URL constant near the top of the script.');
+    return;
+  }
+
+  const payload = {
+    'Submitted At': new Date().toLocaleString(),
+    'Parent Name': parentName,
+    'Oldest Child': oldestChild,
+    'Work Phone': fd.get('work_phone')||'',
+    'Cell Phone': cellPhone,
+    'Volunteer Aide Program': fd.get('opt_aide') ? 'Yes' : '',
+    'Homeroom Mother': fd.get('opt_homeroom') ? 'Yes' : '',
+    'Accelerated Reader Program': fd.get('opt_ar') ? 'Yes' : '',
+    'Picture Day Helper': fd.get('opt_picture') ? 'Yes' : '',
+    'Health Screen Assistant': fd.get('opt_health') ? 'Yes' : '',
+    'Office Assistant': fd.get('opt_office') ? 'Yes' : '',
+    'Clinic Assistant': fd.get('opt_clinic') ? 'Yes' : '',
+    'Junior High Elective Class': fd.get('opt_elective') ? 'Yes' : '',
+    'Sports Team Coach': fd.get('opt_coach') ? 'Yes' : '',
+    'TapRoom Takeover (Sept)': fd.get('ev_taproom') ? 'Yes' : '',
+    'Auction Dinner-Dance (Oct)': fd.get('ev_auction') ? 'Yes' : '',
+    'Field Day (Jan)': fd.get('ev_fieldday') ? 'Yes' : '',
+    "Grandparents' Day (Feb)": fd.get('ev_grandparents') ? 'Yes' : '',
+    'Jamboree Volunteer (Feb)': fd.get('ev_jamboree') ? 'Yes' : '',
+    'Walk-a-thon (Sept)': fd.get('hs_walkathon') ? 'Yes' : '',
+    'Teacher Appreciation Week (May)': fd.get('hs_teacher') ? 'Yes' : '',
+    'Has Talent to Share': fd.get('opt_talent') ? 'Yes' : '',
+    'Homeroom Child': fd.get('homeroom_child')||'',
+    'Homeroom Grade': fd.get('homeroom_grade')||'',
+    'Homeroom Room': fd.get('homeroom_room')||'',
+    'AR Day Preferred': fd.get('ar_day')||'',
+    'Office Day Preferred': fd.get('office_day')||'',
+    'Office Time': fd.get('office_time')||'',
+    'Elective Topic': fd.get('elective_topic')||'',
+    'Coach Sport': fd.get('coach_sport')||'',
+    'Talent Description': fd.get('talent_desc')||''
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+  try{
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams(payload)
+    });
+    document.getElementById('formView').style.display='none';
+    document.getElementById('confirmView').classList.add('show');
+  }catch(e){
+    console.error('Submit error', e);
+    alert("Couldn't submit right now. Please check your internet connection and try again.");
+  }finally{
+    btn.textContent = 'Submit volunteer form';
+    btn.disabled = false;
+  }
+});
+
+document.getElementById('newFormBtn').addEventListener('click', ()=>{
+  document.getElementById('volForm').reset();
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('checked'));
+  document.getElementById('confirmView').classList.remove('show');
+  document.getElementById('formView').style.display='block';
+  window.scrollTo(0,0);
+});
+
+
+</script>
+</body>
+</html>
